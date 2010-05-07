@@ -11,6 +11,7 @@ class Boards:
 		for winningList in winningLists:
 			if self.cells[winningList[0]] != "empty" and self.winningCombination([self.cells[cell] for cell in winningList]):
                 		return self.cells[winningList[0]]
+
 	def takeCell(self, x_or_o, cell):
 		self.cells[int(cell)] = x_or_o
 
@@ -19,6 +20,9 @@ class Boards:
 
 	def winningCombination(self, list):
 		for i in range(0, len(list)):
+			if list[i] == "empty":
+				return False
+
 			if i+1 < len(list):
 				if list[i] != list[i+1]:
 					return False
