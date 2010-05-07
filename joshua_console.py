@@ -2,8 +2,17 @@ import time, random
 
 class TicTacToe:
 
-	def __init__(self):
+	def __init__(self, numberOfPlayers=1):
 		self.emptyGameboard()
+		self.Player_X = self.askPlayer
+		self.Player_O = self.computerPlayer
+
+		if numberOfPlayers == 0:
+			self.Player_X = self.computerPlayer
+		if numberOfPlayers == 2:
+			self.Player_O = self.askPlayer 
+
+		self.difficultyselection = "2"
 
 	def emptyGameboard(self):
 		self.gameboard = ["empty"]*9
@@ -44,8 +53,14 @@ class TicTacToe:
 	#I totally lifted this from http://en.literateprograms.org/Tic_Tac_Toe_(Python)
 	#I added a little functionality --checkForWinningMove--
 	#I'm going to attempt to write some tests and refactor it. At minimum, I need to verify it always wins
-	#but I'm not sure how to go about it...math and thinking is hard.
+	#but I'm not sure how to go about it...math and thinking are hard.
 	def computerPlayer(self, x_or_o):
+		if self.difficultyselection == "1":
+			moves = self.possibleMoves()
+			random.shuffle(moves)
+			self.takesCell(x_or_o, moves[0])
+			return
+
 		winningMove = self.checkForWinningMove(x_or_o)
 		if winningMove != None:
 			self.takesCell(x_or_o, winningMove)
@@ -66,9 +81,9 @@ class TicTacToe:
 				self.takesCell(player, move)
 				if self.gameOver():
                 			return judge(self.winner())
-            			outcomes = (evaluateMove(next_move, opponent[player]) for next_move in self.possibleMoves())
+				outcomes = (evaluateMove(next_move, opponent[player]) for next_move in self.possibleMoves())
 
-            			if player == x_or_o:
+				if player == x_or_o:
                 			#return min(outcomes)
                			 	min_element = 1
                 			for o in outcomes:
@@ -84,6 +99,7 @@ class TicTacToe:
                         					return o
                     					max_element = max(o,max_element)
                 				return max_element
+
 		        finally:
 				self.takesCell("empty",move)
 
@@ -141,17 +157,32 @@ def startGame():
 		print "Wouldn't you prefer a nice game of tic tac toe?"
 		gameselection = raw_input("Make a selection: (1,2,3)")	
 
-	tictactoe = TicTacToe()
+	playerselection = raw_input("How many human players? (0,1,2)")
+	while int(playerselection) not in range(0,3):
+		playerselection = raw_input("How many human players? (1,2)")
+		
+	difficultyselection = "2"
+	if playerselection == "1":
+		difficultyselection = raw_input("Would you like Easy or Hard? (1,2)")
+		while int(difficultyselection) not in range(1,3):
+			difficultyselection = raw_input("Would you like Easy or Hard (1,2)")
+
+	
+	tictactoe = TicTacToe(int(playerselection))
     	tictactoe.printGameboard(tictactoe.gameboard)
+	tictactoe.difficultyselection = difficultyselection
+
 	turn = 1
    	while True:
        		print "%i. turn" % turn
-		tictactoe.askPlayer("player_x")
-       		tictactoe.printGameboard(tictactoe.gameboard)
+		
+		tictactoe.Player_X("player_x")
+		tictactoe.printGameboard(tictactoe.gameboard)
+		
 		if endingMove(tictactoe): 
        			break
-       		#tictactoe.askPlayer("player_o")
-		tictactoe.computerPlayer("player_o")
+       		
+		tictactoe.Player_O("player_o")	
 		tictactoe.printGameboard(tictactoe.gameboard)
        		if endingMove(tictactoe): 
        			break
