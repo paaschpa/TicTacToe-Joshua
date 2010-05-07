@@ -92,8 +92,7 @@ def startGame():
        			break
        		joshua.switchPlayers()	
        		turn += 1
-	
-	joshua.printGameboard()
+		
 	if joshua.tictactoe.gameboard.winner():
        		print joshua.tictactoe.gameboard.winner() + " my primary goal is to win!" 
 	else:    

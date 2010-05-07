@@ -1,6 +1,6 @@
 import unittest
 import sys
-from joshua_console import *
+import joshua_console import *
 from cStringIO import StringIO
 
 class Test(unittest.TestCase):

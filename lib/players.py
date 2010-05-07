@@ -6,15 +6,21 @@ class HumanPlayer:
 	def getMove(self, x_or_o, gameboard, buttonName=""):
 		"""PlayerMove""" 
 		if buttonName == "":
-			cell = self.getraw_input(x_or_o, gameboard.getEmptyCells())
+			cell = self.getraw_input(x_or_o, gameboard)
+			while cell not in gameboard.getEmptyCells():
+        			print "Sorry, '%s' is not a valid move. Please try again." % cell
+        			cell = self.getraw_input(x_or_o, gameboard)
 		else:
 			cell = buttonName[3:]
 		return cell
 
-	def getraw_input(self, x_or_o, availablemoves=[]):
-		input = raw_input(x_or_o + " enter your move (%s): " % ", ".join([str(cell) for cell in availablemoves]))
-		return int(input)
-
+	def getraw_input(self, x_or_o, gameboard):
+		input = raw_input(x_or_o + " enter your move (%s): " % ", ".join([str(cell) for cell in gameboard.getEmptyCells()]))
+		if str.isdigit(input):
+			return int(input)
+		else:
+			return -1
+		
 class ComputerPlayerDifficult:
 	
 	def getMove(self, x_or_o, gameboard, buttonName=""):
@@ -25,7 +31,6 @@ class ComputerPlayerDifficult:
     		opponent = { "player_o" : "player_x", "player_x" : "player_o" }
     		
 		def judge(winner):
-			print winner
         		if winner == x_or_o:
             			return +1
         		if winner == None:
