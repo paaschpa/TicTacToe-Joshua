@@ -12,6 +12,7 @@ class Test(unittest.TestCase):
 	
 	def test_init_creates_a_gameboard_with_ninecells_all_set_to_empty(self):
 		tictactoe = TicTacToe()
+		print "pass"
 		for i in range(0,9):
 			self.assertEqual("empty", tictactoe.gameboard.cells[i])
 

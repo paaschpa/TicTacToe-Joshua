@@ -106,4 +106,5 @@ def endingMove(tictactoe):
 		
 
 if __name__ == "__main__":
-	startGame()
+	#startGame()
+	print "Start"
