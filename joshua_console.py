@@ -5,13 +5,7 @@ from tictactoe import TicTacToe
 class JoshuaConsole:
 
 	def __init__(self, numberOfPlayers=1, gameboard=Boards(9), difficulty="2"):
-		
-		if difficulty =="1":
-			difficulty = "Easy"
-		else:
-			difficulty = "Hard"
-
-		self.tictactoe = TicTacToe(numberOfPlayers=numberOfPlayers, difficulty=difficulty)	
+		self.tictactoe = TicTacToe(numberOfPlayers=numberOfPlayers, difficulty=difficulty)
 		self.currentPlayer = self.tictactoe.PlayerX
 		self.x_or_o = "player_x"
 	

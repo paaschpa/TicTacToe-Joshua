@@ -4,8 +4,12 @@ from lib.players import *
 
 class TicTacToe:
 
-	def __init__(self, numberOfPlayers=1, gameboard=Boards(9), difficulty="Hard"):
-		self.gameboard = gameboard
+	def __init__(self, numberOfPlayers=1, gameboard=None, difficulty="Hard"):
+		if gameboard is None:
+			self.gameboard = Boards(9)
+		else:
+			self.gameboard = gameboard
+
 		self.PlayerX = HumanPlayer()
 		self.PlayerO = self.getComputerPlayer(difficulty)
 		
@@ -17,5 +21,7 @@ class TicTacToe:
 	def getComputerPlayer(self, difficulty):
 		if difficulty == "Hard":
 			return ComputerPlayerDifficult()
-		else:
-			return ComputerPlayerEasy()
+		elif difficulty =="2":
+			return ComputerPlayerDifficult()
+
+		return ComputerPlayerEasy()

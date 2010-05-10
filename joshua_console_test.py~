@@ -6,6 +6,7 @@ from cStringIO import StringIO
 class Test(unittest.TestCase):
 
 	def setUp(self):
+		#http://docs.python.org/faq/design.html#why-are-default-values-shared-between-objects
 		self.console = JoshuaConsole()
 		self.held, sys.stdout = sys.stdout, StringIO()
 
@@ -13,12 +14,13 @@ class Test(unittest.TestCase):
 		for i in self.console.tictactoe.gameboard.cells:
 			self.assertEqual("empty", i)
 
-	def test_new_tictactoe_game_has_nine_empty_cells_PlayerX_isHuman_PlayerO_isComputerHard(self):
-		test = JoshuaConsole()
-		print test.tictactoe.gameboard.cells
-		self.assertEqual(9,len(test.tictactoe.gameboard.cells))
-		self.assertEqual("HumanPlayer", test.tictactoe.PlayerX.__class__.__name__)
-		self.assertEqual("ComputerPlayerDifficult", test.tictactoe.PlayerO.__class__.__name__)
+	def test_new_tictactoe_game_defaults_to_nine_empty_cells_PlayerX_isHuman_PlayerO_isComputerHard(self):
+		for i in self.console.tictactoe.gameboard.cells:
+			self.assertEqual("empty", i)
+		self.assertEqual(9,len(self.console.tictactoe.gameboard.cells))
+		self.assertEqual("HumanPlayer", self.console.tictactoe.PlayerX.__class__.__name__)
+		self.assertEqual("ComputerPlayerDifficult", self.console.tictactoe.PlayerO.__class__.__name__)
+		
 
 	def test_addspaces_adds_blanks_to_make_the_cell_length_equal_to_10(self):
 		self.assertEqual(10, len(self.console.addspaces("empty")))
@@ -34,7 +36,7 @@ class Test(unittest.TestCase):
 # 	I take the above back...I found a way to capture stdout, but I don't like the test
 #	And I still haven't found a unicorn
 	def test_print_gameboard_prints_empty_top_row_to_screen(self):
-		self.console.printGameboard()
+		console.printGameboard()
 		capture = sys.stdout.getvalue()
 		self.assertEqual(True,capture.__contains__("empty     "))
 
@@ -51,7 +53,7 @@ class Test(unittest.TestCase):
 	def test_makeMove_player_x_to_cell_0(self):
 		def getMoveMock(arg1, arg2, arg3):
 			return 0
-		
+	
 		self.console.currentPlayer.getMove = getMoveMock
 		self.console.makeMove()	
 		self.assertEqual("player_x", self.console.tictactoe.gameboard.cells[0]) 

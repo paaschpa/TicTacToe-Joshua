@@ -6,6 +6,7 @@ from cStringIO import StringIO
 class Test(unittest.TestCase):
 
 	def setUp(self):
+		#http://docs.python.org/faq/design.html#why-are-default-values-shared-between-objects
 		self.console = JoshuaConsole()
 		self.held, sys.stdout = sys.stdout, StringIO()
 
@@ -13,11 +14,13 @@ class Test(unittest.TestCase):
 		for i in self.console.tictactoe.gameboard.cells:
 			self.assertEqual("empty", i)
 
-	def test_new_tictactoe_game_has_nine_empty_cells_PlayerX_isHuman_PlayerO_isComputerHard(self):
-		console = JoshuaConsole()
-		self.assertEqual(9,len(console.tictactoe.gameboard.cells))
-		self.assertEqual("HumanPlayer", console.tictactoe.PlayerX.__class__.__name__)
-		self.assertEqual("ComputerPlayerDifficult", console.tictactoe.PlayerO.__class__.__name__)
+	def test_new_tictactoe_game_defaults_to_nine_empty_cells_PlayerX_isHuman_PlayerO_isComputerHard(self):
+		for i in self.console.tictactoe.gameboard.cells:
+			self.assertEqual("empty", i)
+		self.assertEqual(9,len(self.console.tictactoe.gameboard.cells))
+		self.assertEqual("HumanPlayer", self.console.tictactoe.PlayerX.__class__.__name__)
+		self.assertEqual("ComputerPlayerDifficult", self.console.tictactoe.PlayerO.__class__.__name__)
+		
 
 	def test_addspaces_adds_blanks_to_make_the_cell_length_equal_to_10(self):
 		self.assertEqual(10, len(self.console.addspaces("empty")))
@@ -50,7 +53,7 @@ class Test(unittest.TestCase):
 	def test_makeMove_player_x_to_cell_0(self):
 		def getMoveMock(arg1, arg2, arg3):
 			return 0
-		
+	
 		self.console.currentPlayer.getMove = getMoveMock
 		self.console.makeMove()	
 		self.assertEqual("player_x", self.console.tictactoe.gameboard.cells[0]) 
