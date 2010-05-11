@@ -92,6 +92,7 @@ def checkForWinningMove(gameboard, x_or_o):
 	for move in gameboard.getEmptyCells():
 		gameboard.takeCell(x_or_o, move)
 		if gameboard.winner():
+			gameboard.takeCell("empty", move)
 			return move
 		gameboard.takeCell("empty",move)
 	return None

@@ -1,5 +1,6 @@
 import sys
 import unittest
+import players
 from players import *
 from boards import *
 
@@ -80,6 +81,13 @@ class PlayersTest(unittest.TestCase):
 		 gameboard.cells[player.getMove("player_o", gameboard, "")] = "player_o"
 		 self.assertEqual("player_o", gameboard.cells[2])
 
+	def test_checkForWinningMove_takes_a_winning_cell(self):
+		 board = Boards(9)
+		 board.cells[1] = "player_x"
+		 board.cells[2] = "player_x"
+		 players.checkForWinningMove(board, "player_x")
+		 self.assertEqual("player_x", board.cells[0])
+
 	def test_ComputerPlayerDifficult_getMove_makes_the_winning_move(self):
 		 player = ComputerPlayerDifficult()
 		 gameboard = Boards(9)
@@ -102,11 +110,6 @@ class PlayersTest(unittest.TestCase):
 		 gameboard.cells[move] = "player_o"
 		 self.assertEqual("player_o", gameboard.cells[3])
 	
-	def test_ComputerPlayerEasy_getMove_takes_the_last_available_cell(self):
-		pass
-
-	def test_ComputerPlayerEasy_getMove_takes_any_available_cell(self):
-		pass
 
 if __name__ == "__main__":
 	unittest.main()

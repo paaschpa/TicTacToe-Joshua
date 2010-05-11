@@ -1,6 +1,11 @@
+class BoardError(Exception): pass
+class CellNotAvailableError(BoardError): pass
+
 class Boards:
 	
-	def __init__(self, cells=9):
+	def __init__(self, cells=None):
+		if cells is None:
+			cells = 9
 		self.cells = ["empty"]*cells
 
 	def winner(self):
@@ -13,6 +18,9 @@ class Boards:
                 		return self.cells[winningList[0]]
 
 	def takeCell(self, x_or_o, cell):
+		if int(cell) not in self.getEmptyCells():
+			if x_or_o != "empty":
+				raise CellNotAvailableError, "Cell is already taken"
 		self.cells[int(cell)] = x_or_o
 
 	def getEmptyCells(self):

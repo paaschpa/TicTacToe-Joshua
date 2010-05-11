@@ -41,6 +41,7 @@ class MyBackground(model.Background):
 	def makeMove(self,button):
 		self.tictactoe.gameboard.takeCell(self.x_or_o, self.getPlayerMove(self.x_or_o, button.name))
 		button.label = self.x_or_o
+		button.enabled = False
 		self.switchPlayers()
 		self.doComputerMove()
 

@@ -33,6 +33,11 @@ class Test(unittest.TestCase):
 		player = tictactoe.getComputerPlayer("Hard")
 		self.assertEqual("ComputerPlayerDifficult", player.__class__.__name__)
 
+	def test_getComputerPlayer_returns_ComputerPlayerEasy(self):
+		tictactoe = TicTacToe()
+		player = tictactoe.getComputerPlayer("Test")
+		self.assertEqual("ComputerPlayerEasy", player.__class__.__name__)
+
 
 if __name__ == "__main__":
 	unittest.main()

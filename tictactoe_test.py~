@@ -31,7 +31,7 @@ class Test(unittest.TestCase):
 	def test_getComputerPlayer_returns_ComputerPlayerDifficult_when_passed_difficult(self):
 		tictactoe = TicTacToe()
 		player = tictactoe.getComputerPlayer("Hard")
-		self.assertEqual("HumanPlayer", player.__class__.__name__)
+		self.assertEqual("ComputerPlayerDifficult", player.__class__.__name__)
 
 
 if __name__ == "__main__":
