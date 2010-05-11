@@ -8,13 +8,14 @@ import sys
 from PythonCard import model
 from tictactoe import TicTacToe
 
-class MyBackground(model.Background):
+class JoshuaGUI(model.Background):
 
 	def on_initialize(self, event):
 		self.playfieldButtons = []
-		for i in range(9):
-			self.playfieldButtons.append(self.components["btn" + str(i)])
 		self.tictactoe = TicTacToe()
+		for i in range(len(self.tictactoe.gameboard.cells)):
+			self.playfieldButtons.append(self.components["btn" + str(i)])
+		
 		self.currentPlayer = self.tictactoe.PlayerX
 		self.x_or_o = "player_x"
 		self.doComputerMove()
@@ -34,7 +35,6 @@ class MyBackground(model.Background):
 		if self.isplayfieldButton(event.target):
 			button = event.target
 			self.makeMove(button)
-			event.skip()
 		else:
 			event.skip()
 
@@ -42,14 +42,25 @@ class MyBackground(model.Background):
 		self.tictactoe.gameboard.takeCell(self.x_or_o, self.getPlayerMove(self.x_or_o, button.name))
 		button.label = self.x_or_o
 		button.enabled = False
-		self.switchPlayers()
-		self.doComputerMove()
-
+		if self.isGameOver() == False:
+			self.switchPlayers()
+			self.doComputerMove()
+	
 	def getPlayerMove(self, x_or_o, buttonName=""):
 		if buttonName != "":
 			return self.currentPlayer.getMove(x_or_o, self.tictactoe.gameboard, buttonName)
 		return self.currentPlayer.getMove(x_or_o, self.tictactoe.gameboard)
-	
+
+	def isGameOver(self):
+		if self.tictactoe.gameboard.gameOver():
+			lbl = self.components["lblGame"]
+			if self.tictactoe.gameboard.winner() is not None:
+				lbl.text = "Game Over " + self.tictactoe.gameboard.winner() + " wins"
+				return True
+			lbl.text = "No winner"
+			return True
+		return False
+
 	def switchPlayers(self):
 		if self.currentPlayer == self.tictactoe.PlayerX:
 			self.currentPlayer = self.tictactoe.PlayerO
@@ -65,5 +76,5 @@ class MyBackground(model.Background):
 			self.makeMove(self.components["btn" + str(cell)])
 
 if __name__ == '__main__':
-	app = model.Application(MyBackground)
+	app = model.Application(JoshuaGUI)
 	app.MainLoop()
